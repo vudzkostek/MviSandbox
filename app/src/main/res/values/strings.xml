@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MviSandbox</string>
+    <string name="view_coroutine_scope" translatable="false">View scope ID.</string>
 </resources>

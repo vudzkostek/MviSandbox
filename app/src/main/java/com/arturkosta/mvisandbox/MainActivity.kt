@@ -1,38 +1,39 @@
 package com.arturkosta.mvisandbox
 
+import android.content.Context
 import android.os.Bundle
-import android.widget.Button
+import android.util.AttributeSet
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.arturkosta.mvisandbox.model.ProductListState
-import com.arturkosta.mvisandbox.view.ProductListView
-import com.arturkosta.mvisandbox.view.clicks
+import com.arturkosta.mvisandbox.di.mainActivityComponent
+import com.squareup.inject.inflation.InflationInjectFactory
+import javax.inject.Inject
 
-class MainActivity : AppCompatActivity(), ProductListView {
+class MainActivity : AppCompatActivity() {
+    @Inject
+    lateinit var injectViewFactory: InflationInjectFactory
+
+    override fun onCreateView(name: String, ctx: Context, attrs: AttributeSet): View? {
+        return injectViewFactory.onCreateView(name, ctx, attrs) ?: super.onCreateView(
+            name,
+            ctx,
+            attrs
+        )
+    }
+
+    override fun onCreateView(
+        parent: View?,
+        name: String,
+        ctx: Context,
+        attrs: AttributeSet
+    ): View? {
+        return injectViewFactory.onCreateView(parent, name, ctx, attrs)
+            ?: super.onCreateView(parent, name, ctx, attrs)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        mainActivityComponent.inject(this)
         setContentView(R.layout.activity_main)
-    }
-
-    override fun loadProductsIntent() = findViewById<Button>(R.id.load).clicks()
-
-    override fun render(productListState: ProductListState) {
-        when (productListState) {
-            is ProductListState.DataState -> renderDataState(productListState)
-            is ProductListState.LoadingState -> renderLoadingState()
-            is ProductListState.ErrorState -> renderErrorState(productListState)
-        }
-    }
-
-    private fun renderDataState(dataState: ProductListState.DataState) {
-        // Show products in list
-    }
-
-    private fun renderLoadingState() {
-        // Show progress bar
-    }
-
-    private fun renderErrorState(errorState: ProductListState.ErrorState) {
-        // Show error message
     }
 }

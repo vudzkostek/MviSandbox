@@ -6,6 +6,7 @@ object Versions {
     const val APP_COMPAT = "1.1.0"
     const val CHUCKER = "3.0.1"
     const val CONSTRAINT_LAYOUT = "2.0.0-beta4"
+    const val RECYCLER_VIEW = "1.1.0"
     const val COROUTINES = "1.3.2-1.3.60"
     const val DAGGER = "2.26"
     const val DAGGER_ASSISTED = "0.5.2"

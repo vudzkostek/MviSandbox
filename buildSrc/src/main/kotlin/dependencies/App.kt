@@ -6,6 +6,8 @@ object App {
         const val APP_COMPAT = "androidx.appcompat:appcompat:${Versions.APP_COMPAT}"
         const val CONSTRAINT_LAYOUT =
             "androidx.constraintlayout:constraintlayout:${Versions.CONSTRAINT_LAYOUT}"
+        const val RECYCLER_VIEW =
+            "androidx.recyclerview:recyclerview:${Versions.RECYCLER_VIEW}"
         const val CORE_KTX = "androidx.core:core-ktx:${Versions.KTX_CORE}"
         const val FRAGMENT = "androidx.fragment:fragment:${Versions.FRAGMENT}"
         const val ACTIVITY_KTX = "androidx.activity:activity-ktx:${Versions.ACTIVITY_KTX}"
@@ -73,7 +75,8 @@ object App {
     const val LEAK_CANARY = "com.squareup.leakcanary:leakcanary-android:${Versions.LEAK_CANARY}"
     const val MATERIAL = "com.google.android.material:material:${Versions.MATERIAL}"
     const val SIMPLE_STACK = "com.github.Zhuinden:simple-stack:${Versions.SIMPLE_STACK}"
-    const val FIREBASE_MESSAGING = "com.google.firebase:firebase-messaging:${Versions.FIREBASE_MESSAGING}"
+    const val FIREBASE_MESSAGING =
+        "com.google.firebase:firebase-messaging:${Versions.FIREBASE_MESSAGING}"
     const val THREE_TEN_ABP = "com.jakewharton.threetenabp:threetenabp:${Versions.THREE_TEN_ABP}"
     // TODO: Remove library from project [TCA-115]
     const val RATING_BAR_VIEW = "com.github.ome450901:SimpleRatingBar:${Versions.RATING_BAR_VIEW}"
