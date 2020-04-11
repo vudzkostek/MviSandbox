@@ -15,6 +15,9 @@ class ProductListPresenter @Inject constructor(
         productListView.loadProductsIntent()
             .onEach { productListStateRepository.onProductListIntent() }
             .launchIn(presenterScope)
+        productListView.removeProductIntent()
+            .onEach { productListStateRepository.onProductRemoveIntent(it) }
+            .launchIn(presenterScope)
         productListStateRepository.productsListState()
             .onEach { productListView.render(it) }
             .launchIn(presenterScope)

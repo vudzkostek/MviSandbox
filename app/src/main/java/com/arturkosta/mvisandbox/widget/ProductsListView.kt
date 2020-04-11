@@ -11,6 +11,7 @@ import com.arturkosta.mvisandbox.presenter.ProductListPresenter
 import com.arturkosta.mvisandbox.view.ProductListView
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.inflation.InflationInject
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Provider
 
 @SuppressLint("ViewConstructor") // Created by Inflation Inject.
@@ -40,6 +41,7 @@ class ProductsListView @InflationInject constructor(
     }
 
     override fun loadProductsIntent() = binding.load.clicks()
+    override fun removeProductIntent(): Flow<Int> = productListAdapter.itemLongClicks
 
     override fun render(productListState: ProductListState) {
         when (productListState) {

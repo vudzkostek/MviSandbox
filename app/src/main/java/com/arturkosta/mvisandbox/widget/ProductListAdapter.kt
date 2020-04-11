@@ -8,11 +8,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.arturkosta.mvisandbox.R
 import com.arturkosta.mvisandbox.domain.Product
 import kotlinx.android.synthetic.main.product_item_layout.view.*
+import kotlinx.coroutines.channels.BroadcastChannel
+import kotlinx.coroutines.channels.Channel.Factory.BUFFERED
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
 
 class ProductListAdapter(context: Context, var products: MutableList<Product> = mutableListOf()) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val layoutInflater = LayoutInflater.from(context)
+    private val itemLongClicksChannel = BroadcastChannel<Int>(BUFFERED)
+    val itemLongClicks: Flow<Int>
+        get() = itemLongClicksChannel.asFlow()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return ViewHolder(
@@ -21,7 +28,7 @@ class ProductListAdapter(context: Context, var products: MutableList<Product> = 
                 parent,
                 false
             )
-        )
+        ) { itemLongClicksChannel.offer(it) }
     }
 
     fun setData(products: List<Product>) {
@@ -41,10 +48,15 @@ class ProductListAdapter(context: Context, var products: MutableList<Product> = 
         (holder as ViewHolder).bindData(products[position])
     }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(itemView: View, private val onItemLongClick: (Int) -> Unit) :
+        RecyclerView.ViewHolder(itemView) {
 
         fun bindData(product: Product) {
             itemView.title.text = product.title
+            itemView.icon.setOnLongClickListener {
+                onItemLongClick(product.id)
+                true
+            }
         }
     }
 }
