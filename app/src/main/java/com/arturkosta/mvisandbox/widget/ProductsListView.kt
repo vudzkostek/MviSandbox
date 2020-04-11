@@ -6,7 +6,7 @@ import android.util.AttributeSet
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.arturkosta.mvisandbox.databinding.ProductListLayoutBinding
-import com.arturkosta.mvisandbox.model.ProductListState
+import com.arturkosta.mvisandbox.domain.ProductListState
 import com.arturkosta.mvisandbox.presenter.ProductListPresenter
 import com.arturkosta.mvisandbox.view.ProductListView
 import com.squareup.inject.assisted.Assisted

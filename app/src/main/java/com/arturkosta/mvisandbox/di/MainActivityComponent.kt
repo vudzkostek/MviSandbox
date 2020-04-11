@@ -6,14 +6,17 @@ import com.arturkosta.mvisandbox.BuildConfig
 import com.arturkosta.mvisandbox.MainActivity
 import com.arturkosta.mvisandbox.di.MainActivityComponent.Bindings
 import com.arturkosta.mvisandbox.di.MainActivityComponent.Providers
-import com.arturkosta.mvisandbox.repository.ProductRepository
-import com.arturkosta.mvisandbox.repository.ProductRepositoryImpl
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.Subcomponent
 
-@Subcomponent(modules = [ViewModule::class, Providers::class, Bindings::class])
+@Subcomponent(
+    modules = [
+        ViewModule::class,
+        Providers::class,
+        Bindings::class
+    ]
+)
 interface MainActivityComponent {
 
     @Subcomponent.Factory
@@ -33,10 +36,7 @@ interface MainActivityComponent {
     }
 
     @Module
-    abstract class Bindings {
-        @Binds
-        abstract fun bindProductsRepository(repository: ProductRepositoryImpl): ProductRepository
-    }
+    abstract class Bindings
 }
 
 interface MainActivityComponentProvider {

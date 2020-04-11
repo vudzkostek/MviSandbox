@@ -1,4 +1,4 @@
-package com.arturkosta.mvisandbox.model
+package com.arturkosta.mvisandbox.domain
 
 sealed class ProductListState {
     object LoadingState : ProductListState()

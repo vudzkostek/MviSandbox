@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.arturkosta.mvisandbox.R
-import com.arturkosta.mvisandbox.model.Product
+import com.arturkosta.mvisandbox.domain.Product
 import kotlinx.android.synthetic.main.product_item_layout.view.*
 
 class ProductListAdapter(context: Context, var products: MutableList<Product> = mutableListOf()) :
