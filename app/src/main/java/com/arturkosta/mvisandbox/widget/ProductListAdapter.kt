@@ -13,11 +13,17 @@ import kotlinx.coroutines.channels.Channel.Factory.BUFFERED
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 
-class ProductListAdapter(context: Context, var products: MutableList<Product> = mutableListOf()) :
+class ProductListAdapter(
+    context: Context,
+    private var products: MutableList<Product> = mutableListOf()
+) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val layoutInflater = LayoutInflater.from(context)
+    private val itemClicksChannel = BroadcastChannel<Int>(BUFFERED)
     private val itemLongClicksChannel = BroadcastChannel<Int>(BUFFERED)
+    val itemClicks: Flow<Int>
+        get() = itemClicksChannel.asFlow()
     val itemLongClicks: Flow<Int>
         get() = itemLongClicksChannel.asFlow()
 
@@ -27,8 +33,10 @@ class ProductListAdapter(context: Context, var products: MutableList<Product> = 
                 R.layout.product_item_layout,
                 parent,
                 false
-            )
-        ) { itemLongClicksChannel.offer(it) }
+            ),
+            { itemClicksChannel.offer(it) },
+            { itemLongClicksChannel.offer(it) }
+        )
     }
 
     fun setData(products: List<Product>) {
@@ -48,11 +56,18 @@ class ProductListAdapter(context: Context, var products: MutableList<Product> = 
         (holder as ViewHolder).bindData(products[position])
     }
 
-    class ViewHolder(itemView: View, private val onItemLongClick: (Int) -> Unit) :
+    class ViewHolder(
+        itemView: View,
+        val onItemClick: (Int) -> Unit,
+        val onItemLongClick: (Int) -> Unit
+    ) :
         RecyclerView.ViewHolder(itemView) {
 
         fun bindData(product: Product) {
             itemView.title.text = product.title
+            itemView.icon.setOnClickListener {
+                onItemClick(product.id)
+            }
             itemView.icon.setOnLongClickListener {
                 onItemLongClick(product.id)
                 true

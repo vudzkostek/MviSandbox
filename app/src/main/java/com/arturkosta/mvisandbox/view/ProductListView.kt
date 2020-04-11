@@ -7,5 +7,6 @@ import kotlinx.coroutines.flow.Flow
 interface ProductListView {
     fun render(productListState: ProductListState)
     fun loadProductsIntent(): Flow<View>
+    fun openProductDetailsIntent(): Flow<Int>
     fun removeProductIntent(): Flow<Int>
 }

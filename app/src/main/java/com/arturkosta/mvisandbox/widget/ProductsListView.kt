@@ -41,6 +41,7 @@ class ProductsListView @InflationInject constructor(
     }
 
     override fun loadProductsIntent() = binding.load.clicks()
+    override fun openProductDetailsIntent(): Flow<Int> = productListAdapter.itemClicks
     override fun removeProductIntent(): Flow<Int> = productListAdapter.itemLongClicks
 
     override fun render(productListState: ProductListState) {
