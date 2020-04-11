@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity(), MainScreen {
     override fun render(appState: AppState) {
         when (appState) {
             AppState.Exit -> super.onBackPressed()
-            AppState.ProductList -> openProductList()
+            is AppState.ProductList -> openProductList()
             is AppState.ProductDetails -> openProductDetails()
         }
     }

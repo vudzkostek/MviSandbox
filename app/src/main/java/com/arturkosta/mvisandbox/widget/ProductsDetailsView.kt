@@ -5,8 +5,8 @@ import android.content.Context
 import android.util.AttributeSet
 import android.widget.RelativeLayout
 import com.arturkosta.mvisandbox.databinding.ProductDetailsLayoutBinding
-import com.arturkosta.mvisandbox.domain.ProductDetailsState
 import com.arturkosta.mvisandbox.presenter.ProductDetailsPresenter
+import com.arturkosta.mvisandbox.state.AppState
 import com.arturkosta.mvisandbox.view.ProductDetailsView
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.inflation.InflationInject
@@ -33,17 +33,17 @@ class ProductsDetailsView @InflationInject constructor(
         presenter.bind(this)
     }
 
-    override fun render(productDetailsState: ProductDetailsState) {
-        when (productDetailsState) {
-            is ProductDetailsState.DataState -> renderDataState(productDetailsState)
-            is ProductDetailsState.LoadingState -> renderLoadingState()
-            is ProductDetailsState.ErrorState -> renderErrorState(productDetailsState)
+    override fun render(appState: AppState.ProductDetails) {
+        when (appState) {
+            is AppState.ProductDetails.Data -> renderDataState(appState)
+            is AppState.ProductDetails.Loading -> renderLoadingState()
+            is AppState.ProductDetails.Error -> renderErrorState(appState)
         }
     }
 
-    private fun renderDataState(dataState: ProductDetailsState.DataState) {
-        binding.title.text = dataState.data.title
-        binding.description.text = dataState.data.description
+    private fun renderDataState(dataState: AppState.ProductDetails.Data) {
+        binding.title.text = dataState.productDetails.title
+        binding.description.text = dataState.productDetails.description
     }
 
     private fun renderLoadingState() {
@@ -51,7 +51,7 @@ class ProductsDetailsView @InflationInject constructor(
         binding.description.text = "Loading..."
     }
 
-    private fun renderErrorState(errorState: ProductDetailsState.ErrorState) {
+    private fun renderErrorState(errorState: AppState.ProductDetails.Error) {
         binding.title.text = "Error: ${errorState.errorMessage}"
         binding.description.text = "Error: ${errorState.errorMessage}"
     }

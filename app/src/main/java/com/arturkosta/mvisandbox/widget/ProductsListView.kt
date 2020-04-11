@@ -5,10 +5,9 @@ import android.content.Context
 import android.util.AttributeSet
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.arturkosta.mvisandbox.MainActivity
 import com.arturkosta.mvisandbox.databinding.ProductListLayoutBinding
-import com.arturkosta.mvisandbox.domain.ProductListState
 import com.arturkosta.mvisandbox.presenter.ProductListPresenter
+import com.arturkosta.mvisandbox.state.AppState
 import com.arturkosta.mvisandbox.view.ProductListView
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.inflation.InflationInject
@@ -45,17 +44,17 @@ class ProductsListView @InflationInject constructor(
     override fun openProductDetailsIntent(): Flow<Int> = productListAdapter.itemClicks
     override fun removeProductIntent(): Flow<Int> = productListAdapter.itemLongClicks
 
-    override fun render(productListState: ProductListState) {
-        when (productListState) {
-            is ProductListState.DataState -> renderDataState(productListState)
-            is ProductListState.LoadingState -> renderLoadingState()
-            is ProductListState.ErrorState -> renderErrorState(productListState)
+    override fun render(appState: AppState.ProductList) {
+        when (appState) {
+            is AppState.ProductList.Data -> renderDataState(appState)
+            is AppState.ProductList.Loading -> renderLoadingState()
+            is AppState.ProductList.Error -> renderErrorState(appState)
         }
     }
 
-    private fun renderDataState(dataState: ProductListState.DataState) {
+    private fun renderDataState(dataState: AppState.ProductList.Data) {
         binding.state.text = "State: Idle"
-        productListAdapter.setData(dataState.data)
+        productListAdapter.setData(dataState.products)
     }
 
     private fun renderLoadingState() {
@@ -63,7 +62,7 @@ class ProductsListView @InflationInject constructor(
         productListAdapter.clearData()
     }
 
-    private fun renderErrorState(errorState: ProductListState.ErrorState) {
+    private fun renderErrorState(errorState: AppState.ProductList.Error) {
         binding.state.text = "State: Error"
         productListAdapter.clearData()
     }

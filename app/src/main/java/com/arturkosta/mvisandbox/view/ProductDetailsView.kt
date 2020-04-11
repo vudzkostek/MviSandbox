@@ -1,7 +1,7 @@
 package com.arturkosta.mvisandbox.view
 
-import com.arturkosta.mvisandbox.domain.ProductDetailsState
+import com.arturkosta.mvisandbox.state.AppState
 
 interface ProductDetailsView {
-    fun render(productDetailsState: ProductDetailsState)
+    fun render(appState: AppState.ProductDetails)
 }
