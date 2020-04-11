@@ -1,5 +1,8 @@
 package com.arturkosta.mvisandbox.widget
 
+import android.app.Activity
+import android.content.Context
+import android.content.ContextWrapper
 import android.view.View
 import com.arturkosta.mvisandbox.R
 import kotlinx.coroutines.CoroutineScope
@@ -16,6 +19,14 @@ fun View.clicks(): Flow<View> = callbackFlow {
     }
     awaitClose { this@clicks.setOnClickListener(null) }
 }
+
+tailrec fun Context?.activity(): Activity? = when (this) {
+    is Activity -> this
+    else -> (this as? ContextWrapper)?.baseContext?.activity()
+}
+
+val View.activity: Activity?
+    get() = context.activity()
 
 val View.viewScope: CoroutineScope
     get() {

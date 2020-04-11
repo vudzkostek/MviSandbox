@@ -11,8 +11,7 @@ import javax.inject.Singleton
 
 @Component(
     modules = [
-        RepositoryModule::class,
-        NavigatorModule::class
+        RepositoryModule::class
     ]
 )
 @Singleton

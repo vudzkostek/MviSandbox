@@ -2,6 +2,7 @@ package com.arturkosta.mvisandbox.presenter
 
 import com.arturkosta.mvisandbox.model.Presenter
 import com.arturkosta.mvisandbox.navigator.Navigator
+import com.arturkosta.mvisandbox.repository.ProductDetailsStateRepository
 import com.arturkosta.mvisandbox.repository.ProductListStateRepository
 import com.arturkosta.mvisandbox.view.ProductListView
 import kotlinx.coroutines.flow.launchIn
@@ -10,15 +11,16 @@ import javax.inject.Inject
 
 class ProductListPresenter @Inject constructor(
     private val productListStateRepository: ProductListStateRepository,
-    private val navigator: Navigator
+    private val productDetailsStateRepository: ProductDetailsStateRepository
 ) : Presenter() {
 
-    fun bind(productListView: ProductListView) {
+    fun bind(productListView: ProductListView, navigator: Navigator?) {
         productListView.loadProductsIntent()
             .onEach { productListStateRepository.onProductListIntent() }
             .launchIn(presenterScope)
         productListView.openProductDetailsIntent()
-            .onEach { navigator.openProductDetails(it) }
+            .onEach { productDetailsStateRepository.onProductDetailsIntent(it) }
+            .onEach { navigator?.openProductDetails(it) }
             .launchIn(presenterScope)
         productListView.removeProductIntent()
             .onEach { productListStateRepository.onProductRemoveIntent(it) }

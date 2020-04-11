@@ -5,6 +5,7 @@ import android.content.Context
 import android.util.AttributeSet
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.arturkosta.mvisandbox.MainActivity
 import com.arturkosta.mvisandbox.databinding.ProductListLayoutBinding
 import com.arturkosta.mvisandbox.domain.ProductListState
 import com.arturkosta.mvisandbox.presenter.ProductListPresenter
@@ -37,7 +38,7 @@ class ProductsListView @InflationInject constructor(
         binding.productList.layoutManager = LinearLayoutManager(context)
         binding.productList.adapter = ProductListAdapter(context)
 
-        presenter.bind(this)
+        presenter.bind(this, activity as? MainActivity)
     }
 
     override fun loadProductsIntent() = binding.load.clicks()

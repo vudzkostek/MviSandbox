@@ -56,5 +56,5 @@ class ProductsRepository @Inject constructor() : ProductListRepository, ProductD
     }
 
     private fun product(id: Int) = Product(id = id, title = "Title $id", price = "$id,$id$")
-    private fun productDetails(id: Int) = ProductDetails(id = id, description = "Description $id")
+    private fun productDetails(id: Int) = ProductDetails(id = id, title = "Title $id", description = "Description $id")
 }
