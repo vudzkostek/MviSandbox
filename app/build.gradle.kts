@@ -31,6 +31,7 @@ dependencies {
     implementation(App.AndroidX.RECYCLER_VIEW)
     implementation(App.AndroidX.CORE_KTX)
     implementation(App.AndroidX.CONSTRAINT_LAYOUT)
+    implementation(App.AndroidX.LIFECYCLE_KTX)
     implementation(App.Coroutines.CORE)
     implementation(App.Coroutines.ANDROID)
     implementation(App.Dagger.RUNTIME)

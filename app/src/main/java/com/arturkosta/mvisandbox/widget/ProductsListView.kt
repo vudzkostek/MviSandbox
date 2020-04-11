@@ -38,7 +38,7 @@ class ProductsListView @InflationInject constructor(
         binding.productList.layoutManager = LinearLayoutManager(context)
         binding.productList.adapter = ProductListAdapter(context)
 
-        presenter.bind(this, activity as? MainActivity)
+        presenter.bind(this)
     }
 
     override fun loadProductsIntent() = binding.load.clicks()

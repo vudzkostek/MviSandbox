@@ -7,17 +7,26 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.arturkosta.mvisandbox.databinding.ActivityMainBinding
 import com.arturkosta.mvisandbox.di.mainActivityComponent
-import com.arturkosta.mvisandbox.navigator.Navigator
+import com.arturkosta.mvisandbox.presenter.MainActivityPresenter
+import com.arturkosta.mvisandbox.state.AppState
+import com.arturkosta.mvisandbox.view.MainScreen
 import com.squareup.inject.inflation.InflationInjectFactory
-import dagger.Provides
+import kotlinx.coroutines.channels.BroadcastChannel
+import kotlinx.coroutines.channels.Channel.Factory.BUFFERED
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity(), Navigator {
+class MainActivity : AppCompatActivity(), MainScreen {
+
     @Inject
     lateinit var injectViewFactory: InflationInjectFactory
+    @Inject
+    lateinit var mainActivityPresenter: MainActivityPresenter
 
     private lateinit var binding: ActivityMainBinding
-    private var isInDetailsScreen = false
+
+    private val backPressChannel = BroadcastChannel<Boolean>(BUFFERED)
 
     override fun onCreateView(name: String, ctx: Context, attrs: AttributeSet): View? {
         return injectViewFactory.onCreateView(name, ctx, attrs) ?: super.onCreateView(
@@ -40,20 +49,33 @@ class MainActivity : AppCompatActivity(), Navigator {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mainActivityComponent.inject(this)
+        mainActivityPresenter.bind(this)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
     }
 
-    override fun openProductDetails(id: Int) {
-        binding.productListScreen.root.visibility = View.GONE
-        binding.productDetailsScreen.root.visibility = View.VISIBLE
-        isInDetailsScreen = true
+    override fun onBackPressed() {
+        backPressChannel.offer(true)
     }
 
-    override fun onBackPressed() {
+    override fun goBackIntent(): Flow<Boolean> = backPressChannel.asFlow()
+
+    override fun render(appState: AppState) {
+        when (appState) {
+            AppState.Exit -> super.onBackPressed()
+            AppState.ProductList -> openProductList()
+            is AppState.ProductDetails -> openProductDetails()
+        }
+    }
+
+    private fun openProductDetails() {
+        binding.productListScreen.root.visibility = View.GONE
+        binding.productDetailsScreen.root.visibility = View.VISIBLE
+    }
+
+    private fun openProductList() {
         binding.productListScreen.root.visibility = View.VISIBLE
         binding.productDetailsScreen.root.visibility = View.GONE
-        isInDetailsScreen = false
     }
 }

@@ -9,6 +9,7 @@ object App {
         const val RECYCLER_VIEW =
             "androidx.recyclerview:recyclerview:${Versions.RECYCLER_VIEW}"
         const val CORE_KTX = "androidx.core:core-ktx:${Versions.KTX_CORE}"
+        const val LIFECYCLE_KTX = "androidx.lifecycle:lifecycle-runtime-ktx:2.2.0-alpha01"
     }
 
     object Coroutines {
