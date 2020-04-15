@@ -55,6 +55,11 @@ class BusinessLogicImpl @Inject constructor(
         appState.offer(appState.value.reduce(partialState))
     }
 
+    private fun AppState.reduce(
+        partialState: AppPartialState,
+        reduction: (AppState, AppPartialState) -> AppState
+    ): AppState = reduction(this, partialState)
+
     private fun AppState.reduce(partialState: AppPartialState): AppState =
         when (partialState) {
             is AppPartialState.ProductId -> {
