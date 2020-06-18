@@ -29,11 +29,7 @@ class ProductListAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return ViewHolder(
-            layoutInflater.inflate(
-                R.layout.product_item_layout,
-                parent,
-                false
-            ),
+            layoutInflater.inflate(R.layout.product_item_layout, parent, false),
             { itemClicksChannel.offer(it) },
             { itemLongClicksChannel.offer(it) }
         )
