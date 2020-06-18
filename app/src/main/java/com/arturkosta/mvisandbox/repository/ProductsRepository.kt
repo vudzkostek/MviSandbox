@@ -19,13 +19,7 @@ class ProductsRepository @Inject constructor() : ProductListRepository, ProductD
         product(7),
         product(8),
         product(9),
-        product(10),
-        product(101),
-        product(11),
-        product(112),
-        product(12),
-        product(123),
-        product(13)
+        product(10)
     )
 
     private val productsDetails = mutableListOf(
@@ -62,6 +56,5 @@ class ProductsRepository @Inject constructor() : ProductListRepository, ProductD
     }
 
     private fun product(id: Int) = Product(id = id, title = "Title $id", price = "$id,$id$")
-    private fun productDetails(id: Int) =
-        ProductDetails(id = id, title = "Title $id", description = "Description $id")
+    private fun productDetails(id: Int) = ProductDetails(id = id, title = "Title $id", description = "Description $id")
 }
